@@ -1,0 +1,73 @@
+﻿/* site.custom.css */
+
+body {
+    background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slideUpFadeIn 1s ease;
+}
+
+.register-card {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    animation: fadeInCard 1.2s ease-in-out;
+}
+
+    .register-card h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+.form-control:focus {
+    border-color: #a26bff;
+    box-shadow: 0 0 0 0.2rem rgba(162, 107, 255, 0.25);
+}
+
+.btn-purple {
+    background-color: #a26bff;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-purple:hover {
+        background-color: #864de0;
+    }
+
+.text-danger {
+    font-size: 0.875rem;
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInCard {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

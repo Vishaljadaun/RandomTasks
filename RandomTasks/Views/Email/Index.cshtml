@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Send Email";
+}
+
+<h2>Send Email</h2>
+
+<form asp-action="SendEmail" method="post">
+    <div>
+        <textarea name="emailBody" rows="10" cols="60" placeholder="Type your message here..."></textarea>
+    </div>
+    <br />
+    <button type="submit">Send Email</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <p style="color: green;">@ViewBag.Message</p>
+}
