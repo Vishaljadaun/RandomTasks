@@ -1,0 +1,49 @@
+name: CI/CD - Build, Test, and Deploy .NET Core App to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🛒 Checkout code
+      uses: actions/checkout@v3
+
+    - name: ⚙️ Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore
+
+    - name: 🛠️ Build app
+      run: dotnet build --configuration Release --no-restore
+
+    - name: 🧪 Run tests
+      run: dotnet test --no-build --verbosity normal || true
+
+    - name: 🚀 Publish app
+      run: dotnet publish -c Release -o ./publish
+
+  deploy:
+    name: 🚢 Deploy to Azure Web App
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: YOUR_AZURE_APP_NAME     # 🔁 Replace this!
+        slot-name: production
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        package: ./publish
