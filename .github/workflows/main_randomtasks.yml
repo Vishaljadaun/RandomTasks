@@ -19,20 +19,20 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./RandomTasks/RandomTasks.csproj
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build ./RandomTasks/RandomTasks.csproj --configuration Release --no-restore
 
     - name: Test (Optional)
-      run: dotnet test --no-build --verbosity normal || true
+      run: dotnet test ./RandomTasks/RandomTasks.csproj --no-build --verbosity normal || true
 
     - name: Publish
-      run: dotnet publish -c Release -o ./publish
+      run: dotnet publish ./RandomTasks/RandomTasks.csproj -c Release -o ./publish
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: RandomTasks   # 👉 Use the exact Azure Web App name
+        app-name: RandomTasks   # This must match your Azure Web App name
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
         package: ./publish
