@@ -25,15 +25,15 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: ./RandomTasks/RandomTasks
-        file: ./RandomTasks/RandomTasks/Dockerfile
+        context: ./RandomTasks
+        file: ./RandomTasks/Dockerfile
         push: true
         tags: vishalkumar0123/randomtasks:latest
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'RandomTasks'  # Must match your Azure Web App name
+        app-name: 'RandomTasks'  # Azure Web App name
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        images: 'docker.io/vishalkumar0123/randomtasks:latest'
+        images: 'vishalkumar0123/randomtasks:latest'
