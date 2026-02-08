@@ -11,8 +11,8 @@ using RandomTasks.Data;
 namespace RandomTasks.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250419163223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260208162755_initial123")]
+    partial class initial123
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Amazon.S3;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,7 @@ using RandomTasks.Models;
 using RandomTasks.Validation;
 using Serilog;
 using System;
-
+using Amazon.Extensions.NETCore.Setup; // Ensure this using is present
 
 //Serilog packages used 
 //dotnet add package Serilog.AspNetCore
@@ -30,6 +31,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
 builder.Services.AddControllersWithViews();
+
+// ===================== AWS SETUP START =====================
+
+// 1. Get AWS Options using the SDK's helper method (SAFER)
+var awsOptions = builder.Configuration.GetAWSOptions();
+
+// 2. FORCE the Region to Mumbai (APSouth1)
+// This overrides whatever is (or isn't) in appsettings.json
+awsOptions.Region = Amazon.RegionEndpoint.APSouth1;
+
+// 3. Manually set the credentials (ID Card)
+// This reads the specific keys "AccessKey" and "SecretKey" from your JSON
+awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+    builder.Configuration["AWS:AccessKey"],
+    builder.Configuration["AWS:SecretKey"]
+);
+
+// 4. Register the S3 Client
+builder.Services.AddDefaultAWSOptions(awsOptions);
+builder.Services.AddAWSService<IAmazonS3>();
+
+// ===================== AWS SETUP END =======================
 
 
 // Add MVC + FluentValidation
